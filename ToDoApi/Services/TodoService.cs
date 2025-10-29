@@ -37,6 +37,13 @@ public class TodoService : ITodoService
         return _mapper.Map<List<TodoItemResponse>>(todoItems);
     }
 
+    public async Task<List<TodoItemSummaryResponse>> GetAllSummaryAsync()
+    {
+        var todoItems = await _repo.GetAllAsync();
+
+        return _mapper.Map<List<TodoItemSummaryResponse>>(todoItems);
+    }
+
     public async Task<TodoItemResponse?> GetByIdAsync(int id)
     {
         return _mapper.Map<TodoItemResponse?>(await _repo.GetByIdAsync(id));

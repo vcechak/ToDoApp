@@ -23,6 +23,12 @@ public class TodoController : ControllerBase
         return Ok(await _service.GetAllAsync());
     }
 
+    [HttpGet("summary")]
+    public async Task<ActionResult<TodoItemSummaryResponse>> GetAllSummary()
+    {
+        return Ok(await _service.GetAllSummaryAsync());
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<TodoItemResponse>> GetById(int id)
     {
