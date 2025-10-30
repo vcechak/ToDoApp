@@ -1,0 +1,17 @@
+.data-table {
+  .p-datatable-wrapper {
+    max-height: 90cqh; 
+  }
+
+  .p-datatable-tbody > tr > td {
+    min-height: 3rem;
+    height: 3rem;
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
+
+  .actions-header .p-column-title {
+    text-align: center;
+    width: 100%;
+  }
+}

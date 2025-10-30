@@ -1,0 +1,15 @@
+.action-buttons {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+
+  .p-button {
+    height: 2rem;
+    width: 2rem;
+
+    .p-button-icon {
+      font-size: 0.875rem;
+    }
+  }
+}

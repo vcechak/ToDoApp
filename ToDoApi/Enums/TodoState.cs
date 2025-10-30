@@ -8,8 +8,6 @@ public enum TodoState
     New,
     [Description("V řešení")]
     InProgress,
-    [Description("Po termínu")]
-    Overdue,
     [Description("Dokončeno")]
     Completed,
     [Description("Zrušeno")]

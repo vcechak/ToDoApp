@@ -1,4 +1,6 @@
-﻿namespace ToDoApi.Dtos;
+﻿using ToDoApi.Enums;
+
+namespace ToDoApi.Dtos;
 
 public sealed class TodoItemResponse
 {
@@ -8,9 +10,9 @@ public sealed class TodoItemResponse
 
     public string? Description { get; set; }
 
-    public DateTime DueDate { get; set; }
+    public DateTime? DueDate { get; set; }
 
-    public required string State { get; set; }
+    public required TodoState State { get; set; }
 
     public DateTime CreatedOn { get; set; }
 
