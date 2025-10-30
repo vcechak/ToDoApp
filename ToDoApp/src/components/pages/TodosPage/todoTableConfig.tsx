@@ -1,7 +1,7 @@
-import type { TodoItemSummaryResponse } from "../../../types/TodoItemSummaryResponse";
-import type { ColumnConfig } from "../../../types/TableTypes";
-import { TodoState } from "../../../enums/TodoState";
-import { renderStateTag } from "../../../utils/stateRenderer";
+import type { TodoItemSummaryResponse } from "../../../types/todoItemSummaryResponse";
+import type { ColumnConfig } from "../../../types/tableTypes";
+import { TodoState } from "../../../enums/todoState";
+import { renderStateTag } from "../../../utils/StateRenderer";
 
 export const renderDueDate = (rowData: TodoItemSummaryResponse) => {
   if (!rowData.dueDate || rowData.dueDate === null) {

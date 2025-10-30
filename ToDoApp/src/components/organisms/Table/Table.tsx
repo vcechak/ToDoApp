@@ -2,7 +2,7 @@ import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useToast } from "../../../contexts/ToastContext";
-import type { TableProps } from "../../../types/TableTypes";
+import type { TableProps } from "../../../types/tableTypes";
 import "./Table.css";
 
 export const Table: React.FC<TableProps> = ({ 

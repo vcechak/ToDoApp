@@ -6,10 +6,10 @@ import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
-import type { TodoItemCreateRequest } from '../../../types/TodoItemCreateRequest';
-import type { TodoItemUpdateRequest } from '../../../types/TodoItemUpdateRequest';
-import type { TodoItemResponse } from '../../../types/TodoItemResponse';
-import { TodoState, getTodoStateText } from '../../../enums/TodoState';
+import type { TodoItemCreateRequest } from '../../../types/todoItemCreateRequest';
+import type { TodoItemUpdateRequest } from '../../../types/todoItemUpdateRequest';
+import type { TodoItemResponse } from '../../../types/todoItemResponse';
+import { TodoState, getTodoStateText } from '../../../enums/todoState';
 import './TodoDetailsModal.css';
 
 type TodoModalMode = 

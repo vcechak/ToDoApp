@@ -1,6 +1,6 @@
 import { Tag } from "primereact/tag";
-import { getTodoStateText, getStateSeverity } from "../enums/TodoState";
-import type { TodoItemSummaryResponse } from "../types/TodoItemSummaryResponse";
+import { getTodoStateText, getStateSeverity } from "../enums/todoState";
+import type { TodoItemSummaryResponse } from "../types/todoItemSummaryResponse";
 
 export const renderStateTag = (rowData: TodoItemSummaryResponse) => {
   if (rowData.state === null || rowData.state === undefined) return '';

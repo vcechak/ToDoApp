@@ -1,4 +1,4 @@
-import type { TodoState } from '../enums/TodoState';
+import type { TodoState } from '../enums/todoState';
 
 export interface TodoItemUpdateRequest {
   description?: string;
