@@ -1,4 +1,5 @@
-﻿using ToDoApi.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ToDoApi.Context;
 using ToDoApi.Models;
 using ToDoApi.Repositories.Abstraction;
 
@@ -35,13 +36,16 @@ public class TodoRepository : ITodoRepository
 
     public async Task<IEnumerable<TodoItem>> GetAllAsync()
     {
-        _dbContext.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
-        return _dbContext.TodoItems.OrderBy(todoItem => todoItem.DueDate).ToList();
+        _dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        return await _dbContext.TodoItems
+            .OrderBy(todoItem => todoItem.DueDate == null)
+            .ThenBy(todoItem => todoItem.DueDate)
+            .ToListAsync();
     }
 
     public async Task<TodoItem?> GetByIdAsync(int id)
     {
-        _dbContext.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
+        _dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         return await _dbContext.TodoItems.FindAsync(id);
     }
 

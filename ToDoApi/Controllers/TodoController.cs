@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using ToDoApi.Context;
+﻿using Microsoft.AspNetCore.Mvc;
 using ToDoApi.Dtos;
 using ToDoApi.Services.Abstraction;
 
