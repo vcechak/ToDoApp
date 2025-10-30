@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table } from '../../organisms/Table/Table';
 import { Button } from "primereact/button";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useToast } from "../../../contexts/ToastContext";
 import { useTodos } from "../../../hooks/todoHooks/useTodos";
 import { useCreateTodo } from "../../../hooks/todoHooks/useCreateTodo";
@@ -22,12 +23,10 @@ const TodosPage: React.FC = () => {
     const { createTodo, loading: createLoading } = useCreateTodo();
     const { updateTodo, loading: updateLoading } = useUpdateTodo();
     
-    // Modal state
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState<'create' | 'view' | 'edit'>('create');
     const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null);
     
-    // Fetch todo details when viewing/editing
     const { todo: selectedTodo, loading: todoLoading } = useTodoById(selectedTodoId);
 
     const handleCreateNew = () => {
@@ -50,12 +49,26 @@ const TodosPage: React.FC = () => {
     const handleDelete = async (rowData: TodoItemSummaryResponse) => {
         if (!rowData.id) return;
         
+        const confirmDelete = (): Promise<boolean> => {
+            return new Promise((resolve) => {
+                confirmDialog({
+                    message: `Are you sure you want to delete todo "${rowData.name}"?`,
+                    header: 'Delete Confirmation',
+                    icon: 'pi pi-exclamation-triangle',
+                    defaultFocus: 'reject',
+                    acceptClassName: 'p-button-danger',
+                    accept: () => resolve(true),
+                    reject: () => resolve(false)
+                });
+            });
+        };
+        
         try {
-            const success = await deleteTodo(rowData.id);
-            if (success) {
+            const result = await deleteTodo(rowData.id, confirmDelete);
+            if (result.success) {
                 showSuccess(`Todo "${rowData.name}" deleted successfully`);
                 refetch();
-            } else {
+            } else if (!result.cancelled) {
                 showError(`Failed to delete todo "${rowData.name}"`);
             }
         } catch (error) {
@@ -142,6 +155,7 @@ const TodosPage: React.FC = () => {
                 onEdit={handleEditFromView}
                 loading={createLoading || updateLoading || todoLoading}
             />
+            <ConfirmDialog />
         </div>
     );
 };
