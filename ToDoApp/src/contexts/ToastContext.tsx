@@ -1,17 +1,8 @@
-import { createContext, useContext, useRef } from 'react';
+import { useRef } from 'react';
 import type { ReactNode } from 'react';
 import { Toast } from 'primereact/toast';
 import type { ToastMessage } from 'primereact/toast';
-
-interface ToastContextType {
-    showToast: (message: ToastMessage) => void;
-    showError: (detail: string, summary?: string) => void;
-    showSuccess: (detail: string, summary?: string) => void;
-    showInfo: (detail: string, summary?: string) => void;
-    showWarn: (detail: string, summary?: string) => void;
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+import { ToastContext } from './toastContextDefinition';
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
     const toast = useRef<Toast>(null);
@@ -62,12 +53,4 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </ToastContext.Provider>
     );
-};
-
-export const useToast = () => {
-    const context = useContext(ToastContext);
-    if (!context) {
-        throw new Error('useToast must be used within a ToastProvider');
-    }
-    return context;
 };

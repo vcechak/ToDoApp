@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table } from '../../organisms/Table/Table';
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { useToast } from "../../../contexts/ToastContext";
+import { useToast } from "../../../hooks/useToast";
 import { useTodos } from "../../../hooks/todoHooks/useTodos";
 import { useCreateTodo } from "../../../hooks/todoHooks/useCreateTodo";
 import { useUpdateTodo } from "../../../hooks/todoHooks/useUpdateTodo";
@@ -138,7 +138,7 @@ const TodosPage: React.FC = () => {
                 />
             </div>
                         
-            <Table 
+            <Table<TodoItemSummaryResponse>
                 data={todos}
                 columns={todoTableColumns}
                 loading={loading}

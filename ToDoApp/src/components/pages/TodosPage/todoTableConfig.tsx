@@ -16,7 +16,7 @@ export const renderDueDate = (rowData: TodoItemSummaryResponse) => {
   );
 };
 
-export const todoTableColumns: ColumnConfig[] = [
+export const todoTableColumns: ColumnConfig<TodoItemSummaryResponse>[] = [
   {
     field: "name",
     header: "Task Name",

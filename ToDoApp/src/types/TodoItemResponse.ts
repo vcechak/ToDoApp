@@ -1,6 +1,6 @@
 import type { TodoState } from '../enums/todoState';
 
-export interface TodoItemResponse {
+export interface TodoItemResponse extends Record<string, unknown> {
   id: number;
   name: string;
   description?: string;

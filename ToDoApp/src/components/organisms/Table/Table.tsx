@@ -1,18 +1,18 @@
 import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useToast } from "../../../contexts/ToastContext";
+import { useToast } from "../../../hooks/useToast";
 import type { TableProps } from "../../../types/tableTypes";
 import "./Table.css";
 
-export const Table: React.FC<TableProps> = ({ 
+export const Table = <T extends Record<string, unknown>>({ 
   data, 
   columns,
   loading = false, 
   error,
   showActions = false,
   ActionButtonsComponent
-}) => {
+}: TableProps<T>) => {
   const { showError } = useToast();
 
   React.useEffect(() => {
@@ -21,7 +21,7 @@ export const Table: React.FC<TableProps> = ({
     }
   }, [error, showError]);
 
-  const actionsBodyTemplate = (rowData: any) => {
+  const actionsBodyTemplate = (rowData: T) => {
     if (!ActionButtonsComponent || !Object.values(rowData).some(Boolean)) return null;
     
     return (
