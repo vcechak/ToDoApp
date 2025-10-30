@@ -6,7 +6,7 @@ namespace ToDoApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TodoController : ControllerBase
+public sealed class TodoController : ControllerBase
 {
     private readonly ITodoService _service;
 
