@@ -4,6 +4,10 @@ import { Toast } from 'primereact/toast';
 import type { ToastMessage } from 'primereact/toast';
 import { ToastContext } from './toastContextDefinition';
 
+/**
+ * Provider component that manages toast notifications throughout the application
+ * @param children - React child components that will have access to toast functionality
+ */
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
     const toast = useRef<Toast>(null);
 

@@ -7,6 +7,13 @@ interface ActionButtonsProps<T extends { id: number }> {
   onDelete?: (rowData: T) => void;
 }
 
+/**
+ * Reusable action buttons component for table rows providing view and delete functionality
+ * @param rowData - The data object for the current row (must have an id property)
+ * @param onView - Optional callback function for view action
+ * @param onDelete - Optional callback function for delete action
+ * @returns JSX element containing action buttons or null if no valid id
+ */
 export const ActionButtons = <T extends { id: number }>({ 
   rowData, 
   onView, 

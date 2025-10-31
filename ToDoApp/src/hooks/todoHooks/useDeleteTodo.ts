@@ -6,6 +6,10 @@ type DeleteResult = {
     cancelled: boolean;
 };
 
+/**
+ * Custom hook for deleting todo items with optional confirmation
+ * @returns Object containing deleteTodo function, loading state, and error state
+ */
 export const useDeleteTodo = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);

@@ -2,6 +2,10 @@ import { useCallback, useState } from "react";
 import type { TodoItemCreateRequest, TodoItemResponse } from "../../types";
 import { todoApi } from "../../api/todoApi";
 
+/**
+ * Custom hook for creating new todo items
+ * @returns Object containing createTodo function, loading state, and error state
+ */
 export const useCreateTodo = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);

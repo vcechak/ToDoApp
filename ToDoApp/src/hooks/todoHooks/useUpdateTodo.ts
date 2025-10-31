@@ -2,6 +2,10 @@ import { useCallback, useState } from "react";
 import type { TodoItemUpdateRequest, TodoItemResponse } from "../../types";
 import { todoApi }  from "../../api/todoApi";
 
+/**
+ * Custom hook for updating existing todo items
+ * @returns Object containing updateTodo function, loading state, and error state
+ */
 export const useUpdateTodo = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
