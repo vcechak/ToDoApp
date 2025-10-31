@@ -3,3 +3,4 @@ export * from './todoItemCreateRequest';
 export * from './todoItemResponse';
 export * from './todoItemSummaryResponse';
 export * from './todoItemUpdateRequest';
+export * from './odataTypes';

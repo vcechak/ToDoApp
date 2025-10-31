@@ -18,7 +18,18 @@ import { useDeleteTodo } from '../../../hooks';
 
 const TodosPage: React.FC = () => {
     const { showSuccess, showError } = useToast();
-    const { todos, loading, error, refetch } = useTodos();
+    const [pageSize, setPageSize] = useState(10);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [sortField, setSortField] = useState<string>();
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>();
+    
+    const { todos, loading, error, pagingInfo, refetch } = useTodos({
+        pageSize,
+        page: currentPage,
+        sortField,
+        sortOrder
+    });
+    
     const { deleteTodo } = useDeleteTodo();
     const { createTodo, loading: createLoading } = useCreateTodo();
     const { updateTodo, loading: updateLoading } = useUpdateTodo();
@@ -28,6 +39,20 @@ const TodosPage: React.FC = () => {
     const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null);
     
     const { todo: selectedTodo, loading: todoLoading } = useTodoById(selectedTodoId);
+
+    const handlePageChange = (page: number, newPageSize: number) => {
+        setCurrentPage(page);
+        if (newPageSize !== pageSize) {
+            setPageSize(newPageSize);
+            setCurrentPage(0); // Reset to first page when page size changes
+        }
+    };
+
+    const handleSortChange = (field: string, order: 'asc' | 'desc' | null) => {
+        setSortField(field);
+        setSortOrder(order);
+        setCurrentPage(0); // Reset to first page when sorting changes
+    };
 
     const handleCreateNew = () => {
         setModalMode('create');
@@ -145,6 +170,12 @@ const TodosPage: React.FC = () => {
                 error={error}
                 showActions={true}
                 ActionButtonsComponent={ConfiguredActionButtons}
+                paginator={true}
+                pagingInfo={pagingInfo}
+                onPageChange={handlePageChange}
+                onSortChange={handleSortChange}
+                sortField={sortField}
+                sortOrder={sortOrder}
             />
 
             <TodoDetailsModal

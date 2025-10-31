@@ -1,33 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
-import type { TodoItemSummaryResponse } from "../../types";
+import { useCallback } from "react";
+import type { TodoItemSummaryResponse, PagingParams } from "../../types";
 import { todoApi } from "../../api/todoApi";
+import { useODataPaging, type UseODataPagingParams } from "../useODataPaging";
 
-export const useTodos = () => {
-    const [todos, setTodos] = useState<TodoItemSummaryResponse[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+export const useTodos = (params?: UseODataPagingParams) => {
+    // Create a stable reference to the fetch function
+    const fetchTodos = useCallback(
+        (pagingParams: PagingParams) => todoApi.fetchTodoItemsSummary(pagingParams),
+        []
+    );
 
-    const fetchTodos = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await todoApi.fetchTodoItemsSummary();
-            setTodos(data);
-        } catch (error) {
-            setError(error instanceof Error ? error.message : "Failed to fetch todos");
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+    const result = useODataPaging<TodoItemSummaryResponse>(fetchTodos, params);
 
-    useEffect(() => {
-        fetchTodos();
-    }, [fetchTodos]);
-
-    return { 
-        todos, 
-        loading, 
-        error,
-        refetch: fetchTodos
+    return {
+        todos: result.data,
+        loading: result.loading,
+        error: result.error,
+        pagingInfo: result.pagingInfo,
+        refetch: result.refetch
     };
 };

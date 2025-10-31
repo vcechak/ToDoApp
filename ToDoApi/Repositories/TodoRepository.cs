@@ -43,6 +43,12 @@ public class TodoRepository : ITodoRepository
             .ToListAsync();
     }
 
+    public IQueryable<TodoItem> GetQueryable()
+    {
+        _dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        return _dbContext.TodoItems.AsQueryable();
+    }
+
     public async Task<TodoItem?> GetByIdAsync(int id)
     {
         _dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;

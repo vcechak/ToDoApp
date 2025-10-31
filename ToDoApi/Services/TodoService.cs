@@ -37,11 +37,13 @@ public class TodoService : ITodoService
         return _mapper.Map<List<TodoItemResponse>>(todoItems);
     }
 
-    public async Task<List<TodoItemSummaryResponse>> GetAllSummaryAsync()
+    public IQueryable<TodoItemSummaryResponse> GetListSummary()
     {
-        var todoItems = await _repo.GetAllAsync();
+        var todoItems = _repo.GetQueryable()
+            .OrderBy(todoItem => todoItem.DueDate == null)
+            .ThenBy(todoItem => todoItem.DueDate);
 
-        return _mapper.Map<List<TodoItemSummaryResponse>>(todoItems);
+        return _mapper.ProjectTo<TodoItemSummaryResponse>(todoItems);
     }
 
     public async Task<TodoItemResponse?> GetByIdAsync(int id)

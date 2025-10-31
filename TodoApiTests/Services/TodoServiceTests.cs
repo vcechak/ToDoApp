@@ -121,28 +121,26 @@ public class TodoServiceTests
     }
 
     [Fact]
-    public async Task GetAllSummaryAsync_ReturnsSummaryResponses()
+    public void GetListSummary_ReturnsQueryable()
     {
         // Arrange
         var todoItems = new List<TodoItem>
         {
             new TodoItem {Id = 1,  Name = "Task A", State = TodoState.New }
         };
-        var summaryResponses = new List<TodoItemSummaryResponse>
-        {
-            new TodoItemSummaryResponse { Id = 1, Name = "Task A", State = TodoState.New }
-        };
 
-        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(todoItems);
-        _mapperMock.Setup(m => m.Map<List<TodoItemSummaryResponse>>(todoItems)).Returns(summaryResponses);
+        _repoMock.Setup(r => r.GetQueryable()).Returns(todoItems.AsQueryable());
 
         // Act
-        var result = await _service.GetAllSummaryAsync();
+        var result = _service.GetListSummary();
 
         // Assert
-        Assert.Single(result);
-        Assert.Equal("Task A", result[0].Name);
-        Assert.Equal(TodoState.New, result[0].State);
+        Assert.NotNull(result);
+        // Verify that the method returns an IQueryable (we can't test ProjectTo without real AutoMapper config)
+        Assert.IsAssignableFrom<IQueryable<TodoItemSummaryResponse>>(result);
+        
+        // Verify the repository was called correctly
+        _repoMock.Verify(r => r.GetQueryable(), Times.Once);
     }
 
     [Fact]

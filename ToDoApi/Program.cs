@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using ToDoApi.Extensions;
 
@@ -10,7 +11,17 @@ builder.Services
     .AddAppAutoMapper()
     .AddAppServices();
 
-builder.Services.AddControllers();
+// Add OData support for query options (filtering, sorting, paging)
+builder.Services.AddControllers()
+    .AddOData(opt => opt
+        .Select()
+        .Filter()
+        .OrderBy()
+        .Expand()
+        .SetMaxTop(100)
+        .Count()
+        .SkipToken());
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

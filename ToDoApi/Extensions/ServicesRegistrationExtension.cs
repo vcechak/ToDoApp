@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using ToDoApi.Context;
+using ToDoApi.Dtos;
 using ToDoApi.Mappers;
 using ToDoApi.Repositories;
 using ToDoApi.Repositories.Abstraction;
@@ -52,6 +56,21 @@ public static class ServicesRegistrationExtension
     {
         services.AddScoped<ITodoRepository, TodoRepository>();
         services.AddScoped<ITodoService, TodoService>();
+        services.AddScoped<IODataService, ODataService>();
+        return services;
+    }
+
+    public static IServiceCollection AddODataServices(this IServiceCollection services)
+    {
+        services.AddControllers()
+            .AddOData(options => options
+                .Select()
+                .Filter()
+                .OrderBy()
+                .Expand()
+                .Count()
+                .SetMaxTop(100));
+        
         return services;
     }
 }

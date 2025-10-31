@@ -1,5 +1,5 @@
 import type { TodoItemSummaryResponse } from "../../../types/todoItemSummaryResponse";
-import type { ColumnConfig } from "../../../types/tableTypes";
+import type { ColumnConfig } from "../../../types/TableTypes";
 import { TodoState } from "../../../enums/todoState";
 import { renderStateTag } from "../../../utils/StateRenderer";
 

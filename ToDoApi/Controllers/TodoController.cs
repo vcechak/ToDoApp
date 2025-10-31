@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using ToDoApi.Dtos;
+using ToDoApi.Services;
 using ToDoApi.Services.Abstraction;
 
 namespace ToDoApi.Controllers;
@@ -8,29 +10,32 @@ namespace ToDoApi.Controllers;
 [Route("[controller]")]
 public sealed class TodoController : ControllerBase
 {
-    private readonly ITodoService _service;
+    private readonly ITodoService _todoService;
+    private readonly IODataService _odataService;
 
-    public TodoController(ITodoService service)
+    public TodoController(ITodoService todoService, IODataService odataService)
     {
-        _service = service;
+        _todoService = todoService;
+        _odataService = odataService;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<TodoItemResponse>>> GetAll()
     {
-        return Ok(await _service.GetAllAsync());
+        return Ok(await _todoService.GetAllAsync());
     }
 
     [HttpGet("summary")]
-    public async Task<ActionResult<TodoItemSummaryResponse>> GetAllSummary()
+    public IActionResult GetListSummary(ODataQueryOptions<TodoItemSummaryResponse> queryOptions)
     {
-        return Ok(await _service.GetAllSummaryAsync());
+        var queryable = _todoService.GetListSummary();
+        return _odataService.ProcessQuery(queryable, queryOptions);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TodoItemResponse>> GetById(int id)
     {
-        var item = await _service.GetByIdAsync(id);
+        var item = await _todoService.GetByIdAsync(id);
         if (item == null)
         {
             return NotFound();
@@ -41,7 +46,7 @@ public sealed class TodoController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TodoItemCreateRequest>> Create(TodoItemCreateRequest request)
     {
-        var createdItem = await _service.CreateAsync(request);
+        var createdItem = await _todoService.CreateAsync(request);
         if (createdItem == null)
         {
             return BadRequest("Could not create the todo item.");
@@ -53,7 +58,7 @@ public sealed class TodoController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<TodoItemUpdateRequest>> Update(int id, TodoItemUpdateRequest request)
     {
-        var updatedItem = await _service.UpdateAsync(id, request);
+        var updatedItem = await _todoService.UpdateAsync(id, request);
         if (updatedItem == null)
         {
             return NotFound();
@@ -64,7 +69,7 @@ public sealed class TodoController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var result = await _service.DeleteAsync(id);
+        var result = await _todoService.DeleteAsync(id);
         if (!result)
         {
             return NotFound();
